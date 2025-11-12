@@ -1,0 +1,308 @@
+{
+  "version": "1.0.0",
+  "description": "Canonical test vectors for tax calculation accuracy verification",
+  "sourceAuthority": "Income Tax Department India - Official Tax Rates",
+  "lastUpdated": "2024-11-11",
+  "vectors": [
+    {
+      "id": "FY2025-26-NEW-001",
+      "description": "Income below exemption limit",
+      "input": {
+        "financialYear": "FY2025-26",
+        "regime": "new",
+        "ageGroup": "0-60",
+        "incomes": { "salary": 350000, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 }
+      },
+      "expected": {
+        "grossIncome": 350000,
+        "taxableIncome": 275000,
+        "slabTaxBeforeSurcharge": 0,
+        "rebate87A": 0,
+        "surcharge": 0,
+        "cess": 0,
+        "totalTaxLiability": 0,
+        "refundOrDue": 0
+      }
+    },
+    {
+      "id": "FY2025-26-NEW-002",
+      "description": "Exact slab boundary 4L",
+      "input": {
+        "financialYear": "FY2025-26",
+        "regime": "new",
+        "ageGroup": "0-60",
+        "incomes": { "salary": 475000, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 }
+      },
+      "expected": {
+        "grossIncome": 475000,
+        "taxableIncome": 400000,
+        "slabTaxBeforeSurcharge": 0,
+        "rebate87A": 0,
+        "surcharge": 0,
+        "cess": 0,
+        "totalTaxLiability": 0,
+        "refundOrDue": 0
+      }
+    },
+    {
+      "id": "FY2025-26-NEW-003",
+      "description": "Income 5L - First slab 5%",
+      "input": {
+        "financialYear": "FY2025-26",
+        "regime": "new",
+        "ageGroup": "0-60",
+        "incomes": { "salary": 575000, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 }
+      },
+      "expected": {
+        "grossIncome": 575000,
+        "taxableIncome": 500000,
+        "slabTaxBeforeSurcharge": 5000,
+        "rebate87A": 5000,
+        "surcharge": 0,
+        "cess": 0,
+        "totalTaxLiability": 0,
+        "refundOrDue": 0
+      }
+    },
+    {
+      "id": "FY2025-26-NEW-004",
+      "description": "Exact slab boundary 8L",
+      "input": {
+        "financialYear": "FY2025-26",
+        "regime": "new",
+        "ageGroup": "0-60",
+        "incomes": { "salary": 875000, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 }
+      },
+      "expected": {
+        "grossIncome": 875000,
+        "taxableIncome": 800000,
+        "slabTaxBeforeSurcharge": 20000,
+        "rebate87A": 20000,
+        "surcharge": 0,
+        "cess": 0,
+        "totalTaxLiability": 0,
+        "refundOrDue": 0
+      }
+    },
+    {
+      "id": "FY2025-26-NEW-005",
+      "description": "Income 12L - Rebate applies",
+      "input": {
+        "financialYear": "FY2025-26",
+        "regime": "new",
+        "ageGroup": "0-60",
+        "incomes": { "salary": 1275000, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 }
+      },
+      "expected": {
+        "grossIncome": 1275000,
+        "taxableIncome": 1200000,
+        "slabTaxBeforeSurcharge": 60000,
+        "rebate87A": 60000,
+        "surcharge": 0,
+        "cess": 0,
+        "totalTaxLiability": 0,
+        "refundOrDue": 0
+      }
+    },
+    {
+      "id": "FY2025-26-NEW-006",
+      "description": "Income 12L + 1 rupee - No rebate",
+      "input": {
+        "financialYear": "FY2025-26",
+        "regime": "new",
+        "ageGroup": "0-60",
+        "incomes": { "salary": 1275001, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 }
+      },
+      "expected": {
+        "grossIncome": 1275001,
+        "taxableIncome": 1200001,
+        "slabTaxBeforeSurcharge": 60000,
+        "rebate87A": 0,
+        "surcharge": 0,
+        "cess": 2400,
+        "totalTaxLiability": 62400,
+        "refundOrDue": -62400
+      }
+    },
+    {
+      "id": "FY2025-26-NEW-007",
+      "description": "Income 15L - Multiple slabs",
+      "input": {
+        "financialYear": "FY2025-26",
+        "regime": "new",
+        "ageGroup": "0-60",
+        "incomes": { "salary": 1575000, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 }
+      },
+      "expected": {
+        "grossIncome": 1575000,
+        "taxableIncome": 1500000,
+        "slabTaxBeforeSurcharge": 105000,
+        "rebate87A": 0,
+        "surcharge": 0,
+        "cess": 4200,
+        "totalTaxLiability": 109200,
+        "refundOrDue": -109200
+      }
+    },
+    {
+      "id": "FY2025-26-NEW-008",
+      "description": "Income 60L - Surcharge 10%",
+      "input": {
+        "financialYear": "FY2025-26",
+        "regime": "new",
+        "ageGroup": "0-60",
+        "incomes": { "salary": 6075000, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 }
+      },
+      "expected": {
+        "grossIncome": 6075000,
+        "taxableIncome": 6000000,
+        "slabTaxBeforeSurcharge": 1380000,
+        "rebate87A": 0,
+        "surcharge": 138000,
+        "cess": 60720,
+        "totalTaxLiability": 1578720,
+        "refundOrDue": -1578720
+      }
+    },
+    {
+      "id": "FY2025-26-NEW-009",
+      "description": "Income 1.1Cr - Surcharge 15%",
+      "input": {
+        "financialYear": "FY2025-26",
+        "regime": "new",
+        "ageGroup": "0-60",
+        "incomes": { "salary": 11075000, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 }
+      },
+      "expected": {
+        "grossIncome": 11075000,
+        "taxableIncome": 11000000,
+        "slabTaxBeforeSurcharge": 2880000,
+        "rebate87A": 0,
+        "surcharge": 432000,
+        "cess": 132480,
+        "totalTaxLiability": 3444480,
+        "refundOrDue": -3444480
+      }
+    },
+    {
+      "id": "FY2025-26-OLD-001",
+      "description": "Old regime - Income 7L age 0-60",
+      "input": {
+        "financialYear": "FY2025-26",
+        "regime": "old",
+        "ageGroup": "0-60",
+        "incomes": { "salary": 750000, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 }
+      },
+      "expected": {
+        "grossIncome": 750000,
+        "taxableIncome": 700000,
+        "slabTaxBeforeSurcharge": 52500,
+        "rebate87A": 0,
+        "surcharge": 0,
+        "cess": 2100,
+        "totalTaxLiability": 54600,
+        "refundOrDue": -54600
+      }
+    },
+    {
+      "id": "FY2025-26-OLD-002",
+      "description": "Old regime - Senior citizen 60-80",
+      "input": {
+        "financialYear": "FY2025-26",
+        "regime": "old",
+        "ageGroup": "60-80",
+        "incomes": { "salary": 750000, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 }
+      },
+      "expected": {
+        "grossIncome": 750000,
+        "taxableIncome": 700000,
+        "slabTaxBeforeSurcharge": 50000,
+        "rebate87A": 0,
+        "surcharge": 0,
+        "cess": 2000,
+        "totalTaxLiability": 52000,
+        "refundOrDue": -52000
+      }
+    },
+    {
+      "id": "FY2025-26-OLD-003",
+      "description": "Old regime - Super senior 80+",
+      "input": {
+        "financialYear": "FY2025-26",
+        "regime": "old",
+        "ageGroup": "80+",
+        "incomes": { "salary": 750000, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 }
+      },
+      "expected": {
+        "grossIncome": 750000,
+        "taxableIncome": 700000,
+        "slabTaxBeforeSurcharge": 40000,
+        "rebate87A": 0,
+        "surcharge": 0,
+        "cess": 1600,
+        "totalTaxLiability": 41600,
+        "refundOrDue": -41600
+      }
+    },
+    {
+      "id": "FY2024-25-NEW-001",
+      "description": "FY24-25 New regime - 7L income",
+      "input": {
+        "financialYear": "FY2024-25",
+        "regime": "new",
+        "ageGroup": "0-60",
+        "incomes": { "salary": 750000, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 }
+      },
+      "expected": {
+        "grossIncome": 750000,
+        "taxableIncome": 700000,
+        "slabTaxBeforeSurcharge": 25000,
+        "rebate87A": 25000,
+        "surcharge": 0,
+        "cess": 0,
+        "totalTaxLiability": 0,
+        "refundOrDue": 0
+      }
+    },
+    {
+      "id": "FY2024-25-NEW-002",
+      "description": "FY24-25 New regime - 7L + 1 rupee",
+      "input": {
+        "financialYear": "FY2024-25",
+        "regime": "new",
+        "ageGroup": "0-60",
+        "incomes": { "salary": 750001, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 }
+      },
+      "expected": {
+        "grossIncome": 750001,
+        "taxableIncome": 700001,
+        "slabTaxBeforeSurcharge": 25000,
+        "rebate87A": 0,
+        "surcharge": 0,
+        "cess": 1000,
+        "totalTaxLiability": 26000,
+        "refundOrDue": -26000
+      }
+    },
+    {
+      "id": "TDS-001",
+      "description": "TDS paid - Refund scenario",
+      "input": {
+        "financialYear": "FY2025-26",
+        "regime": "new",
+        "ageGroup": "0-60",
+        "incomes": { "salary": 875000, "interest": 0, "rental": 0, "businessProfession": 0, "capitalGains": 0, "otherSources": 0 },
+        "tdsPaid": 15000
+      },
+      "expected": {
+        "grossIncome": 875000,
+        "taxableIncome": 800000,
+        "slabTaxBeforeSurcharge": 20000,
+        "rebate87A": 20000,
+        "totalTaxLiability": 0,
+        "tdsPaid": 15000,
+        "refundOrDue": 15000
+      }
+    }
+  ]
+}

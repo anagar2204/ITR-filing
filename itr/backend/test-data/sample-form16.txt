@@ -1,0 +1,79 @@
+FORM NO. 16
+[See rule 31(1)(a)]
+
+PART A
+Certificate under section 203 of the Income-tax Act, 1961 for tax deducted at source on salary
+
+Name and address of the Employer: ABC Technologies Pvt Ltd
+TAN of the Deductor: ABCD12345E
+
+PAN of the Employee: ABCDE1234F
+Name of the Employee: John Doe
+
+Assessment Year: 2025-26
+Financial Year: 2024-25
+
+Summary of Tax Deducted at Source
+
+Quarter | Receipt Numbers | Amount Paid/Credited | Tax Deducted | Date of Deduction
+Q1      | 12345          | 300000              | 15000        | 15-Jun-2024
+Q2      | 12346          | 300000              | 15000        | 15-Sep-2024
+Q3      | 12347          | 300000              | 15000        | 15-Dec-2024
+Q4      | 12348          | 300000              | 15000        | 15-Mar-2025
+
+Total Tax Deducted: 60000
+
+PART B
+Details of Salary Paid and any other income and tax deducted
+
+1. Gross Salary
+   (a) Salary as per provisions contained in section 17(1): 1200000
+   (b) Value of perquisites under section 17(2): 0
+   (c) Profits in lieu of salary under section 17(3): 0
+   (d) Total: 1200000
+
+2. Less: Allowances to the extent exempt under section 10
+   House Rent Allowance: 120000
+   Leave Travel Allowance: 30000
+   Total: 150000
+
+3. Balance (1-2): 1050000
+
+4. Deductions:
+   Standard Deduction: 50000
+   Professional Tax: 2400
+   Total: 52400
+
+5. Income chargeable under the head 'Salaries': 997600
+
+6. Add: Any other income reported by the employee: 0
+
+7. Gross total income (5+6): 997600
+
+8. Deductions under Chapter VI-A
+   (A) Section 80C, 80CCC and 80CCD: 150000
+   (B) Section 80D (Medical Insurance): 25000
+   (C) Section 80E (Education Loan Interest): 0
+   Total: 175000
+
+9. Total income (7-8): 822600
+
+10. Tax on total income: 61520
+
+11. Rebate under section 87A: 0
+
+12. Surcharge: 0
+
+13. Health and Education Cess: 2461
+
+14. Tax payable (10+12+13-11): 63981
+
+15. Less: Relief under section 89: 0
+
+16. Tax payable: 63981
+
+Verification
+I, John Doe, hereby declare that the information given above is true and correct.
+
+Place: Mumbai
+Date: 31-May-2025

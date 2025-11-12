@@ -1,0 +1,61 @@
+{
+  "name": "itr-filing-platform",
+  "version": "0.1.0",
+  "description": "ITR Filing Platform - AI-powered tax filing solution",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:services\" \"npm run dev:web\"",
+    "dev:services": "cd backend && npm run dev",
+    "dev:web": "cd frontend/web && npm run dev",
+    "dev:mobile": "cd frontend/mobile && npm start",
+    "build": "npm run build:services && npm run build:web",
+    "build:services": "cd backend && npm run build",
+    "build:web": "cd frontend/web && npm run build",
+    "test": "npm run test:services && npm run test:web",
+    "test:services": "cd backend && npm test",
+    "test:web": "cd frontend/web && npm test",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "db:migrate": "cd backend && npm run migrate",
+    "db:seed": "cd backend && npm run seed",
+    "prepare": "husky install"
+  },
+  "workspaces": [
+    "backend/services/*",
+    "frontend/web",
+    "frontend/mobile",
+    "ai-services/*"
+  ],
+  "keywords": [
+    "itr",
+    "tax",
+    "filing",
+    "india",
+    "income-tax"
+  ],
+  "author": "ITR Platform Team",
+  "license": "PROPRIETARY",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "concurrently": "^8.2.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-react": "^7.33.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
+    "prettier": "^3.0.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
+  }
+}

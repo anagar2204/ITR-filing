@@ -1,0 +1,100 @@
+{
+  "financialYear": "FY2025-26",
+  "assessmentYear": "AY2026-27",
+  "version": "1.0.0",
+  "releaseDate": "2025-04-01",
+  "sourceUrl": "https://www.incometax.gov.in/iec/foportal/help/individual/return-applicable-1",
+  "sourceDocument": "Income Tax Department - Tax Rates for FY 2025-26",
+  "regimes": {
+    "new": {
+      "name": "New Tax Regime (Default)",
+      "standardDeduction": 75000,
+      "slabs": [
+        { "from": 0, "to": 400000, "rate": 0 },
+        { "from": 400000, "to": 800000, "rate": 5 },
+        { "from": 800000, "to": 1200000, "rate": 10 },
+        { "from": 1200000, "to": 1600000, "rate": 15 },
+        { "from": 1600000, "to": 2000000, "rate": 20 },
+        { "from": 2000000, "to": 2400000, "rate": 25 },
+        { "from": 2400000, "to": null, "rate": 30 }
+      ],
+      "rebate87A": {
+        "enabled": true,
+        "maxIncome": 1200000,
+        "maxRebate": 60000,
+        "description": "Rebate under Section 87A for income up to Rs. 12 lakhs"
+      },
+      "allowedDeductions": ["80CCD2"]
+    },
+    "old": {
+      "name": "Old Tax Regime",
+      "standardDeduction": 50000,
+      "ageGroups": {
+        "0-60": {
+          "slabs": [
+            { "from": 0, "to": 250000, "rate": 0 },
+            { "from": 250000, "to": 500000, "rate": 5 },
+            { "from": 500000, "to": 1000000, "rate": 20 },
+            { "from": 1000000, "to": null, "rate": 30 }
+          ]
+        },
+        "60-80": {
+          "slabs": [
+            { "from": 0, "to": 300000, "rate": 0 },
+            { "from": 300000, "to": 500000, "rate": 5 },
+            { "from": 500000, "to": 1000000, "rate": 20 },
+            { "from": 1000000, "to": null, "rate": 30 }
+          ]
+        },
+        "80+": {
+          "slabs": [
+            { "from": 0, "to": 500000, "rate": 0 },
+            { "from": 500000, "to": 1000000, "rate": 20 },
+            { "from": 1000000, "to": null, "rate": 30 }
+          ]
+        }
+      },
+      "rebate87A": {
+        "enabled": true,
+        "maxIncome": 500000,
+        "maxRebate": 12500,
+        "description": "Rebate under Section 87A for income up to Rs. 5 lakhs"
+      },
+      "allowedDeductions": [
+        "80C", "80CCC", "80CCD1", "80CCD1B", "80CCD2", "80D", "80DD", "80DDB",
+        "80E", "80EE", "80EEA", "80EEB", "80G", "80GG", "80GGA", "80GGC",
+        "80IA", "80IAB", "80IB", "80IC", "80ID", "80IE", "80JJA", "80JJAA",
+        "80LA", "80P", "80QQB", "80RRB", "80TTA", "80TTB", "80U"
+      ]
+    }
+  },
+  "surcharge": {
+    "slabs": [
+      { "from": 0, "to": 5000000, "rate": 0 },
+      { "from": 5000000, "to": 10000000, "rate": 10 },
+      { "from": 10000000, "to": 20000000, "rate": 15 },
+      { "from": 20000000, "to": 50000000, "rate": 25 },
+      { "from": 50000000, "to": null, "rate": 37 }
+    ],
+    "marginalRelief": {
+      "enabled": true,
+      "description": "Marginal relief ensures additional tax due to surcharge does not exceed income exceeding threshold"
+    }
+  },
+  "cess": {
+    "rate": 4,
+    "description": "Health and Education Cess at 4% on (Income Tax + Surcharge)"
+  },
+  "specialRates": {
+    "ltcg": {
+      "rate": 12.5,
+      "exemptionLimit": 125000,
+      "description": "Long Term Capital Gains above Rs. 1.25 lakh taxed at 12.5%"
+    },
+    "stcg": {
+      "equity": 20,
+      "other": "slab",
+      "description": "Short Term Capital Gains - Equity at 20%, others at slab rates"
+    }
+  }
+}
