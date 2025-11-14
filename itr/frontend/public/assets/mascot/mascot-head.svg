@@ -1,30 +1,29 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="mascotGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="headGradient" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
       <stop offset="50%" style="stop-color:#06B6D4;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
     </linearGradient>
   </defs>
   
-  <!-- Head/Face -->
-  <circle cx="12" cy="10" r="7" fill="url(#mascotGradient)" opacity="0.9"/>
+  <!-- Simplified Head/Face -->
+  <circle cx="12" cy="12" r="8" fill="url(#headGradient)" opacity="0.95"/>
   
-  <!-- Hair -->
-  <path d="M8 6c1-2 3-2 4-1 1-1 3 1 4 1 0-1 1-2 2-1-1-2-3-3-6-3s-5 1-4 4z" fill="#2563EB" opacity="0.8"/>
+  <!-- Hair/Top -->
+  <path d="M7 7c2-3 4-2 5-1 1-1 3 1 4 1 1-1 2-1 2 0-1-3-4-4-7-4s-6 2-4 4z" fill="#2563EB" opacity="0.85"/>
   
   <!-- Eyes -->
-  <circle cx="9.5" cy="9" r="1" fill="white"/>
-  <circle cx="14.5" cy="9" r="1" fill="white"/>
-  <circle cx="9.5" cy="9" r="0.5" fill="#1F2937"/>
-  <circle cx="14.5" cy="9" r="0.5" fill="#1F2937"/>
+  <circle cx="9" cy="11" r="1.2" fill="white"/>
+  <circle cx="15" cy="11" r="1.2" fill="white"/>
+  <circle cx="9" cy="11" r="0.6" fill="#1F2937"/>
+  <circle cx="15" cy="11" r="0.6" fill="#1F2937"/>
   
   <!-- Smile -->
-  <path d="M9 12c1 1 2 1 3 0 1 1 2 0 3 0" stroke="white" stroke-width="1" fill="none" stroke-linecap="round"/>
+  <path d="M8.5 14.5c1.5 1.5 3 1.5 4.5 0 1.5 1.5 3 0 3 0" stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round"/>
   
-  <!-- Document/Tax form -->
-  <rect x="16" y="14" width="6" height="8" rx="1" fill="white" opacity="0.9"/>
-  <line x1="17" y1="16" x2="21" y2="16" stroke="#10B981" stroke-width="0.5"/>
-  <line x1="17" y1="18" x2="20" y2="18" stroke="#06B6D4" stroke-width="0.5"/>
-  <line x1="17" y1="20" x2="21" y2="20" stroke="#3B82F6" stroke-width="0.5"/>
+  <!-- Small document indicator -->
+  <rect x="17" y="16" width="4" height="5" rx="0.5" fill="white" opacity="0.8"/>
+  <line x1="18" y1="17.5" x2="20" y2="17.5" stroke="#10B981" stroke-width="0.3"/>
+  <line x1="18" y1="19" x2="19.5" y2="19" stroke="#06B6D4" stroke-width="0.3"/>
 </svg>
