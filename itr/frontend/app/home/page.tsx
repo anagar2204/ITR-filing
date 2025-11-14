@@ -74,21 +74,28 @@ export default function Home() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="relative">
+              <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-teal-500 rounded-lg blur opacity-60"></div>
-                <div className="relative bg-gradient-to-r from-green-600 to-teal-600 p-2 rounded-lg">
+                <div className="relative bg-gradient-to-r from-green-600 to-teal-600 p-2 rounded-lg transition-all duration-200 group-hover:scale-105 group-hover:shadow-lg">
                   <Image
-                    src="/tax-genie-mascot.png"
-                    alt="Tax Genie"
+                    src="/assets/mascot/mascot-head.svg"
+                    alt=""
                     width={24}
                     height={24}
-                    className="w-6 h-6"
+                    className="w-6 h-6 transition-all duration-120"
+                    aria-hidden="true"
                   />
                 </div>
               </div>
-              <span className="text-2xl font-bold bg-clip-text text-transparent" style={{
-                backgroundImage: `linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end))`
-              }}>Tax Genie</span>
+              <span 
+                className="text-2xl font-bold bg-clip-text text-transparent" 
+                style={{
+                  backgroundImage: `linear-gradient(to right, var(--btn-gradient-start), var(--btn-gradient-end))`
+                }}
+                aria-label="Tax Genie — AI tax assistant"
+              >
+                Tax Genie
+              </span>
             </div>
             <nav className="hidden md:flex items-center space-x-8">
               <a href="#features" className="transition" style={{ color: 'var(--text-secondary)' }}>Features</a>

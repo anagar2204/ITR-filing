@@ -82,13 +82,14 @@ export default function LoginPage() {
           <Link href="/" className="inline-flex items-center space-x-3 mb-6 group">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg blur opacity-75 group-hover:opacity-100 transition"></div>
-              <div className="relative bg-gradient-to-r from-blue-600 to-cyan-600 p-2 rounded-lg">
+              <div className="relative bg-gradient-to-r from-blue-600 to-cyan-600 p-2 rounded-lg group-hover:scale-105 transition-all duration-200">
                 <Image
-                  src="/tax-genie-mascot.png"
-                  alt="Tax Genie"
-                  width={32}
-                  height={32}
-                  className="w-8 h-8"
+                  src="/assets/mascot/mascot-head.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="w-6 h-6"
+                  aria-hidden="true"
                 />
               </div>
             </div>

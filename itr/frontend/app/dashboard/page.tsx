@@ -74,14 +74,22 @@ function DashboardContent() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <Image
-                src="/tax-genie-mascot.png"
-                alt="Tax Genie"
-                width={32}
-                height={32}
-                className="w-8 h-8"
-              />
-              <span className="text-2xl font-bold text-foreground">Tax Genie</span>
+              <div className="group">
+                <Image
+                  src="/assets/mascot/mascot-head.svg"
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 transition-all duration-120 group-hover:scale-105"
+                  aria-hidden="true"
+                />
+              </div>
+              <span 
+                className="text-2xl font-bold text-foreground"
+                aria-label="Tax Genie — AI tax assistant"
+              >
+                Tax Genie
+              </span>
             </div>
             <div className="flex items-center space-x-4">
               <button
