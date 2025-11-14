@@ -1,8 +1,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { FileText, Mail, Lock, AlertCircle, Sparkles, CheckCircle2 } from 'lucide-react'
+import { Eye, EyeOff, FileText, CheckCircle, AlertCircle, Mail, Lock, LogIn, Sparkles } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { authAPI } from '@/lib/api'
 
@@ -82,10 +83,16 @@ export default function LoginPage() {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg blur opacity-75 group-hover:opacity-100 transition"></div>
               <div className="relative bg-gradient-to-r from-blue-600 to-cyan-600 p-2 rounded-lg">
-                <FileText className="h-8 w-8 text-white" />
+                <Image
+                  src="/tax-genie-mascot.png"
+                  alt="Tax Genie"
+                  width={32}
+                  height={32}
+                  className="w-8 h-8"
+                />
               </div>
             </div>
-            <span className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">ITR Platform</span>
+            <span className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Tax Genie</span>
           </Link>
           <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
           <p className="text-gray-300">Login to continue filing your ITR</p>
@@ -97,7 +104,7 @@ export default function LoginPage() {
             {/* Success Message */}
             {success && (
               <div className="mb-6 p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-lg flex items-start animate-fadeIn backdrop-blur-sm">
-                <CheckCircle2 className="h-5 w-5 text-green-400 mr-2 flex-shrink-0 mt-0.5" />
+                <CheckCircle className="h-5 w-5 text-green-400 mr-2 flex-shrink-0 mt-0.5" />
                 <span className="text-green-300 text-sm font-medium">Login successful! Redirecting to dashboard...</span>
               </div>
             )}
@@ -159,7 +166,7 @@ export default function LoginPage() {
                     </>
                   ) : success ? (
                     <>
-                      <CheckCircle2 className="h-5 w-5 mr-2" />
+                      <CheckCircle className="h-5 w-5 mr-2" />
                       Success!
                     </>
                   ) : (

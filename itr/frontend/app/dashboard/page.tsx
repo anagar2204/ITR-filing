@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { FileText, Calculator, TrendingUp, Moon, Sun, LogOut, Plus, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ProtectedRoute } from '@/components/ProtectedRoute'
 import { useTheme } from '@/components/ThemeProvider'
 import { taxAPI } from '@/lib/api'
@@ -73,8 +74,14 @@ function DashboardContent() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <FileText className="h-8 w-8 text-primary" />
-              <span className="text-2xl font-bold text-foreground">ITR Platform</span>
+              <Image
+                src="/tax-genie-mascot.png"
+                alt="Tax Genie"
+                width={32}
+                height={32}
+                className="w-8 h-8"
+              />
+              <span className="text-2xl font-bold text-foreground">Tax Genie</span>
             </div>
             <div className="flex items-center space-x-4">
               <button
