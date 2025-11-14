@@ -56,7 +56,7 @@ export default function TaxSummaryPage() {
   }, [summary.refund])
 
   const handleBack = () => {
-    router.push('/itr/tax-saving')
+    router.push('/itr/tax-savings')
   }
 
   const handleEFile = () => {

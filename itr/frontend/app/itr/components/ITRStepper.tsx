@@ -16,7 +16,7 @@ interface Step {
 const steps: Step[] = [
   { id: 1, name: 'Personal Info', href: '/itr/personal-info', icon: '👤' },
   { id: 2, name: 'Income Sources', href: '/itr/income-sources', icon: '💰' },
-  { id: 3, name: 'Tax Saving', href: '/itr/tax-saving', icon: '🛡️' },
+  { id: 3, name: 'Tax Saving', href: '/itr/tax-savings', icon: '🛡️' },
   { id: 4, name: 'Tax Summary', href: '/itr/tax-summary', icon: '📊' },
 ]
 

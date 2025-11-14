@@ -7,7 +7,6 @@ import { useTheme } from '@/components/ThemeProvider'
 import { useDropzone } from 'react-dropzone'
 import FAQPanel from './components/FAQPanel'
 import FileQueueRow from './components/FileQueueRow'
-import ParsedPreviewCard from './components/ParsedPreviewCard'
 
 interface UploadedFile {
   fileId: string
@@ -67,16 +66,27 @@ export default function Form16UploadPage() {
     fileList.forEach(file => formData.append('files', file))
 
     try {
-      const response = await fetch('/api/uploads/form16', {
+      const response = await fetch('http://localhost:5000/api/form16/upload', {
         method: 'POST',
         body: formData
       })
 
       const data = await response.json()
-      setUploadId(data.uploadId)
+      
+      if (data.success) {
+        setUploadId(data.uploadId)
+        
+        // Update file IDs from response
+        setFiles(prev => prev.map((f, index) => ({
+          ...f,
+          fileId: data.files[index]?.fileId || f.fileId
+        })))
 
-      // Start listening for progress updates
-      startProgressListener(data.uploadId, fileData)
+        // Start polling for progress updates
+        startProgressListener(data.uploadId, fileData)
+      } else {
+        throw new Error(data.message || 'Upload failed')
+      }
     } catch (error) {
       console.error('Upload failed:', error)
       setFiles(prev => prev.map(f => ({ ...f, status: 'failed', error: 'Upload failed' })))
@@ -84,27 +94,43 @@ export default function Form16UploadPage() {
   }
 
   const startProgressListener = (uploadId: string, fileData: UploadedFile[]) => {
-    const eventSource = new EventSource(`/api/uploads/${uploadId}/status`)
-
-    eventSource.onmessage = (event) => {
-      const update = JSON.parse(event.data)
-      
-      setFiles(prev => prev.map(f => 
-        f.fileId === update.fileId 
-          ? { ...f, status: update.status, progress: update.progress, parsedData: update.result?.parsed, confidence: update.result?.confidence, error: update.error }
-          : f
-      ))
-
-      if (update.status === 'done' || update.status === 'failed') {
-        // Check if all files are done
-        const allDone = fileData.every(f => f.status === 'done' || f.status === 'failed')
-        if (allDone) eventSource.close()
+    const pollProgress = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/form16/status/${uploadId}`)
+        const data = await response.json()
+        
+        if (data.success) {
+          const uploadData = data.data
+          
+          // Update file statuses
+          setFiles(prev => prev.map(f => {
+            const fileProgress = uploadData.files.find((fp: any) => fp.fileId === f.fileId)
+            if (fileProgress) {
+              return {
+                ...f,
+                status: fileProgress.status,
+                progress: fileProgress.progress,
+                parsedData: fileProgress.parsedData,
+                confidence: fileProgress.confidence,
+                error: fileProgress.error
+              }
+            }
+            return f
+          }))
+          
+          // Continue polling if not all files are done
+          const allDone = uploadData.files.every((f: any) => f.status === 'done' || f.status === 'failed')
+          if (!allDone) {
+            setTimeout(pollProgress, 1000) // Poll every second
+          }
+        }
+      } catch (error) {
+        console.error('Failed to poll progress:', error)
       }
     }
-
-    eventSource.onerror = () => {
-      eventSource.close()
-    }
+    
+    // Start polling
+    setTimeout(pollProgress, 1000)
   }
 
   const removeFile = (fileId: string) => {
@@ -113,15 +139,20 @@ export default function Form16UploadPage() {
 
   const applyParsedData = async (fileId: string) => {
     try {
-      const response = await fetch('/api/form16/apply', {
+      const response = await fetch('http://localhost:5000/api/form16/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uploadId, fileId, targetFormId: 'current' })
+        body: JSON.stringify({ uploadId, fileId, userId: 'default-user' })
       })
 
       const data = await response.json()
       if (data.success) {
-        alert('Data applied successfully!')
+        alert('Form 16 data applied successfully! Redirecting to tax summary...')
+        setTimeout(() => {
+          window.location.href = '/tax-summary'
+        }, 1500)
+      } else {
+        alert('Failed to apply data: ' + data.message)
       }
     } catch (error) {
       console.error('Apply failed:', error)

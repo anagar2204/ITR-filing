@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Calculator, FileText, TrendingUp, Shield, ArrowRight, CheckCircle, Sparkles, Zap, Award, Users, Sun, Moon, UserPlus, Upload, Wand2, Send, ChevronDown, FileCheck, DollarSign, Star, Clock } from 'lucide-react'
+import { Calculator, FileText, TrendingUp, Shield, ArrowRight, CheckCircle, Sparkles, Zap, Award, Users, Sun, Moon, UserPlus, Upload, Wand2, Send, ChevronDown, FileCheck, DollarSign, Star, Clock, Target, Database } from 'lucide-react'
 import Link from 'next/link'
 import { useTheme } from '@/components/ThemeProvider'
 
@@ -421,13 +421,42 @@ export default function Home() {
                 delay={0.1}
               />
             </Link>
-            <FeatureCard
-              icon={<TrendingUp className="h-12 w-12" />}
-              title="Deduction Optimizer"
-              description="Get personalized suggestions to maximize your deductions under 80C, 80D, and other sections."
-              iconColor="purple"
-              delay={0.2}
-            />
+            <Link href="/deduction-optimizer" className="block h-full">
+              <FeatureCard
+                icon={<TrendingUp className="h-12 w-12" />}
+                title="Deduction Optimizer"
+                description="Get personalized suggestions to maximize your deductions under 80C, 80D, and other sections."
+                iconColor="purple"
+                delay={0.2}
+              />
+            </Link>
+            <Link href="/tax-summary" className="block h-full">
+              <FeatureCard
+                icon={<FileCheck className="h-12 w-12" />}
+                title="Tax Summary & Receipt"
+                description="View comprehensive tax calculation summary with regime comparison and download professional PDF receipt."
+                iconColor="green"
+                delay={0.25}
+              />
+            </Link>
+            <Link href="/test-accuracy" className="block h-full">
+              <FeatureCard
+                icon={<Target className="h-12 w-12" />}
+                title="Accuracy Testing"
+                description="Comprehensive testing suite to validate mathematical accuracy and ensure reliable tax calculations."
+                iconColor="purple"
+                delay={0.27}
+              />
+            </Link>
+            <Link href="/data-debug" className="block h-full">
+              <FeatureCard
+                icon={<Database className="h-12 w-12" />}
+                title="Data Debug Console"
+                description="Debug and validate data storage across all income and deduction sections with real-time monitoring."
+                iconColor="cyan"
+                delay={0.29}
+              />
+            </Link>
             <FeatureCard
               icon={<Shield className="h-12 w-12" />}
               title="100% Secure"

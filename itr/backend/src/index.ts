@@ -10,8 +10,13 @@ import { logger } from './utils/logger';
 import authRoutes from './routes/authRoutes';
 import taxRoutes from './routes/taxRoutes';
 import documentRoutes from './routes/documentRoutes';
-import form16Routes from './routes/form16.routes';
 import itrRoutes from './routes/itrRoutes';
+import incomeSourceRoutes from './routes/incomeSourceRoutes';
+import taxSavingsRoutes from './routes/taxSavingsRoutes';
+import taxCalculationRoutes from './routes/taxCalculationRoutes';
+import form16Routes from './routes/form16Routes';
+import testUserRoutes from './routes/testUserRoutes';
+import dataValidationRoutes from './routes/dataValidationRoutes';
 
 dotenv.config();
 
@@ -26,11 +31,19 @@ const PORT = process.env.PORT || 2050;
 // Create uploads directories
 const uploadsDir = path.join(__dirname, '../uploads');
 const form16Dir = path.join(uploadsDir, 'form16');
+const incomeDocumentsDir = path.join(uploadsDir, 'income-documents');
+const taxDocumentsDir = path.join(uploadsDir, 'tax-documents');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 if (!fs.existsSync(form16Dir)) {
   fs.mkdirSync(form16Dir, { recursive: true });
+}
+if (!fs.existsSync(incomeDocumentsDir)) {
+  fs.mkdirSync(incomeDocumentsDir, { recursive: true });
+}
+if (!fs.existsSync(taxDocumentsDir)) {
+  fs.mkdirSync(taxDocumentsDir, { recursive: true });
 }
 
 // Middleware
@@ -44,7 +57,9 @@ app.use(cors({
     'http://localhost:6461',
     'http://localhost:2000',
     'http://127.0.0.1:6461',
-    'http://127.0.0.1:2000'
+    'http://127.0.0.1:2000',
+    'http://127.0.0.1:50953',
+    'http://localhost:50953'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -70,6 +85,12 @@ app.use('/api/tax', taxRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api', form16Routes);
 app.use('/api/itr', itrRoutes);
+app.use('/api/income-sources', incomeSourceRoutes);
+app.use('/api/tax-savings', taxSavingsRoutes);
+app.use('/api/tax-calculation', taxCalculationRoutes);
+app.use('/api/form16', form16Routes);
+app.use('/api/test-users', testUserRoutes);
+app.use('/api/data-validation', dataValidationRoutes);
 
 // Error handling
 app.use(errorHandler);

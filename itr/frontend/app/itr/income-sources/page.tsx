@@ -73,7 +73,7 @@ export default function IncomeSourcesPage() {
   ])
 
   const handleContinue = () => {
-    router.push('/itr/tax-saving')
+    router.push('/itr/tax-savings')
   }
 
   return (
@@ -108,7 +108,7 @@ export default function IncomeSourcesPage() {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
               >
                 <Link
-                  href={source.id === 'salary' ? '/form16-upload' : '#'}
+                  href={`/itr/income-sources/${source.id}`}
                   className="block h-full rounded-2xl backdrop-blur-md border p-6 transition-all hover:scale-105 hover:shadow-2xl group"
                   style={{
                     background: theme === 'dark' ? 'rgba(30, 41, 59, 0.9)' : 'rgba(255, 255, 255, 0.9)',

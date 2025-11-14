@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { useTheme } from '@/components/ThemeProvider'
 import { TaxResult } from '../page'
-import { TrendingDown, ChevronDown, RefreshCw, Award } from 'lucide-react'
+import { TrendingDown, ChevronDown, RefreshCw, Award, FileCheck } from 'lucide-react'
 import { useState } from 'react'
 
 interface ResultsComparisonProps {
@@ -269,8 +269,19 @@ export default function ResultsComparison({ result, onReset }: ResultsComparison
         ))}
       </div>
       
-      {/* Reset Button */}
-      <div className="flex justify-center mt-8">
+      {/* Action Buttons */}
+      <div className="flex justify-center gap-4 mt-8">
+        <button
+          onClick={() => window.location.href = '/tax-summary'}
+          className="flex items-center gap-2 px-8 py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:scale-105"
+          style={{
+            background: 'linear-gradient(90deg, #16A34A, #06B6D4)',
+            boxShadow: '0 4px 15px rgba(22, 163, 74, 0.3)'
+          }}
+        >
+          <FileCheck className="h-4 w-4" />
+          View Tax Summary
+        </button>
         <button
           onClick={onReset}
           className="flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300"

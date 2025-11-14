@@ -19,8 +19,10 @@ import ResultsComparison from './components/ResultsComparison'
 export interface TaxFormData {
   // Basic Details
   fy: '2024-25' | '2025-26'
-  ageGroup: '0-60' | '60-80' | '80+'
+  ageGroup: 'below60' | '60to80' | 'above80'
   taxpayerCategory: 'individual' | 'huf' | 'firm' | 'llp' | 'domestic-company' | 'foreign-company'
+  gender: 'male' | 'female' | 'other'
+  residentialStatus: 'resident' | 'nri' | 'rnor'
   
   // Income Details
   salary: number
@@ -90,9 +92,11 @@ export default function TaxCalculatorPage() {
   const [error, setError] = useState<string | null>(null)
   
   const [formData, setFormData] = useState<TaxFormData>({
-    fy: '2025-26',
-    ageGroup: '0-60',
+    fy: '2024-25',
+    ageGroup: 'below60',
     taxpayerCategory: 'individual',
+    gender: 'male',
+    residentialStatus: 'resident',
     salary: 0,
     hra: 0,
     otherIncome: 0,
@@ -138,39 +142,91 @@ export default function TaxCalculatorPage() {
     setError(null)
     
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8049'
-      const response = await fetch(`${apiUrl}/api/tax/calculator/calculate`, {
+      const apiUrl = 'http://localhost:5000'
+      
+      // Use the compare-regimes endpoint to get both calculations
+      const response = await fetch(`${apiUrl}/api/tax-calculation/compare-regimes`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          fy: formData.fy,
-          ageGroup: formData.ageGroup,
-          incomes: {
-            salary: formData.salary,
-            hra: formData.hra,
-            otherIncome: formData.otherIncome,
-            interest: formData.interest,
-            capGains: formData.capGains,
+          userId: 'tax-calculator-user',
+          financialYear: formData.fy === '2024-25' ? '2024-25' : '2024-25',
+          incomeData: {
+            salary: {
+              basicSalary: formData.salary,
+              hra: formData.hra,
+              allowances: 0,
+              bonuses: 0
+            },
+            houseProperty: [],
+            capitalGains: {
+              shortTermGains: formData.capGains,
+              longTermGains: 0
+            },
+            otherSources: {
+              interestIncome: formData.interest,
+              otherIncome: formData.otherIncome
+            },
+            business: {}
           },
-          deductions: {
-            section80C: formData.section80C,
-            section80D: formData.section80D,
-            section80TTA: formData.section80TTA,
-            standardDeduction: formData.standardDeduction,
-            otherDeductions: formData.otherDeductions,
+          deductionData: {
+            section80C: {
+              lifeInsurancePremium: formData.section80C
+            },
+            section80D: {
+              selfFamilyPremium: formData.section80D
+            },
+            otherDeductions: {
+              section80TTA: formData.section80TTA,
+              otherDeductions: formData.otherDeductions
+            }
           },
+          taxesPaidData: {}
         }),
       })
       
       const data = await response.json()
       
       if (!response.ok) {
-        throw new Error(data.error || 'Calculation failed')
+        throw new Error(data.message || 'Calculation failed')
       }
       
-      setResult(data.data)
+      // Transform the response to match the expected TaxResult format
+      const oldRegime = data.data.oldRegime
+      const newRegime = data.data.newRegime
+      
+      const transformedResult: TaxResult = {
+        oldRegime: {
+          grossIncome: oldRegime.grossTotalIncome,
+          totalDeductions: oldRegime.totalDeductions,
+          taxableIncome: oldRegime.taxableIncome,
+          taxBeforeCess: oldRegime.taxBeforeRebate,
+          surcharge: oldRegime.surcharge,
+          cess: oldRegime.healthEducationCess,
+          totalTax: oldRegime.totalTaxLiability,
+          rebate: oldRegime.rebateU87A,
+          netTax: oldRegime.totalTaxLiability,
+          slabBreakdown: [] // Will be populated if needed
+        },
+        newRegime: {
+          grossIncome: newRegime.grossTotalIncome,
+          totalDeductions: newRegime.totalDeductions,
+          taxableIncome: newRegime.taxableIncome,
+          taxBeforeCess: newRegime.taxBeforeRebate,
+          surcharge: newRegime.surcharge,
+          cess: newRegime.healthEducationCess,
+          totalTax: newRegime.totalTaxLiability,
+          rebate: newRegime.rebateU87A,
+          netTax: newRegime.totalTaxLiability,
+          slabBreakdown: [] // Will be populated if needed
+        },
+        savings: Math.max(0, oldRegime.totalTaxLiability - newRegime.totalTaxLiability),
+        recommendedRegime: data.data.recommendation === 'NEW' ? 'new' : 'old'
+      }
+      
+      setResult(transformedResult)
     } catch (err: any) {
       console.error('Tax calculation error:', err)
       setError(err.message || 'Failed to calculate tax. Please try again.')
