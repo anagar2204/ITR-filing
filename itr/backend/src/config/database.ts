@@ -271,6 +271,101 @@ export const initDatabase = async () => {
     )
   `);
 
+  // Deductions tables with proper schema
+  db.run(`
+    CREATE TABLE IF NOT EXISTS deductions_80c (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      assessment_year TEXT NOT NULL,
+      idempotency_key TEXT,
+      components TEXT NOT NULL, -- JSON array of components
+      total_amount_paise INTEGER NOT NULL,
+      cap_applied BOOLEAN DEFAULT FALSE,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+      UNIQUE(user_id, assessment_year, idempotency_key)
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS deductions_80d (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      assessment_year TEXT NOT NULL,
+      idempotency_key TEXT,
+      premiums TEXT NOT NULL, -- JSON array of premiums
+      preventive_checkup_amount_paise INTEGER DEFAULT 0,
+      total_amount_paise INTEGER NOT NULL,
+      cap_breakdown TEXT NOT NULL, -- JSON of cap calculations
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+      UNIQUE(user_id, assessment_year, idempotency_key)
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS deductions_taxes_paid (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      assessment_year TEXT NOT NULL,
+      idempotency_key TEXT,
+      tds_entries TEXT NOT NULL, -- JSON array of TDS entries
+      tcs_entries TEXT DEFAULT '[]', -- JSON array of TCS entries
+      total_tds_paise INTEGER NOT NULL,
+      total_tcs_paise INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+      UNIQUE(user_id, assessment_year, idempotency_key)
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS deductions_carry_forward (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      assessment_year TEXT NOT NULL,
+      idempotency_key TEXT,
+      losses TEXT NOT NULL, -- JSON array of loss entries
+      available_offsets TEXT NOT NULL, -- JSON of calculated offsets
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+      UNIQUE(user_id, assessment_year, idempotency_key)
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS deductions_other (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      assessment_year TEXT NOT NULL,
+      idempotency_key TEXT,
+      entries TEXT NOT NULL, -- JSON array of other deduction entries
+      total_amount_paise INTEGER NOT NULL,
+      section_breakdown TEXT NOT NULL, -- JSON of section-wise breakdown
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+      UNIQUE(user_id, assessment_year, idempotency_key)
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS computation_runs (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      assessment_year TEXT NOT NULL,
+      computation_data TEXT NOT NULL, -- Full computation JSON
+      input_hash TEXT NOT NULL, -- Hash of all inputs for idempotency
+      status TEXT DEFAULT 'completed',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
   // Create indexes for performance
   db.run(`CREATE INDEX IF NOT EXISTS idx_income_salary_user_ay ON income_salary(user_id, assessment_year)`);
   db.run(`CREATE INDEX IF NOT EXISTS idx_income_interest_user_ay ON income_interest(user_id, assessment_year)`);
@@ -280,6 +375,14 @@ export const initDatabase = async () => {
   db.run(`CREATE INDEX IF NOT EXISTS idx_income_other_user_ay ON income_other(user_id, assessment_year)`);
   db.run(`CREATE INDEX IF NOT EXISTS idx_deductions_user_ay ON deductions_data(user_id, assessment_year)`);
   db.run(`CREATE INDEX IF NOT EXISTS idx_tax_calculations_user_ay ON tax_calculations(user_id, assessment_year)`);
+  
+  // Deductions indexes
+  db.run(`CREATE INDEX IF NOT EXISTS idx_deductions_80c_user_ay ON deductions_80c(user_id, assessment_year)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_deductions_80d_user_ay ON deductions_80d(user_id, assessment_year)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_deductions_taxes_paid_user_ay ON deductions_taxes_paid(user_id, assessment_year)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_deductions_carry_forward_user_ay ON deductions_carry_forward(user_id, assessment_year)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_deductions_other_user_ay ON deductions_other(user_id, assessment_year)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_computation_runs_user_ay ON computation_runs(user_id, assessment_year)`);
 
   saveDB();
   console.log('✅ Database initialized successfully with tax calculation tables');

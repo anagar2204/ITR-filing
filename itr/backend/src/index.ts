@@ -18,6 +18,7 @@ import form16Routes from './routes/form16Routes';
 import testUserRoutes from './routes/testUserRoutes';
 import dataValidationRoutes from './routes/dataValidationRoutes';
 import interestSummaryRoutes from './routes/interestSummary';
+import deductionsRoutes from './routes/deductionsRoutes';
 
 dotenv.config();
 
@@ -93,6 +94,7 @@ app.use('/api/form16', form16Routes);
 app.use('/api/test-users', testUserRoutes);
 app.use('/api/data-validation', dataValidationRoutes);
 app.use('/api/v1/interest-summary', interestSummaryRoutes);
+app.use('/api/v1/deductions', deductionsRoutes);
 
 // Capital gains routes
 const capitalGainsRoutes = require('./routes/capitalGains');
