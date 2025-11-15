@@ -146,8 +146,143 @@ export const initDatabase = async () => {
     )
   `);
 
+  // Income sources tables with proper numeric types
+  db.run(`
+    CREATE TABLE IF NOT EXISTS income_salary (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      assessment_year TEXT NOT NULL,
+      employer_name TEXT,
+      gross_salary INTEGER NOT NULL, -- Store in paise to avoid float issues
+      basic_salary INTEGER DEFAULT 0,
+      hra_received INTEGER DEFAULT 0,
+      special_allowance INTEGER DEFAULT 0,
+      other_allowances INTEGER DEFAULT 0,
+      tds_deducted INTEGER DEFAULT 0,
+      professional_tax INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS income_interest (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      assessment_year TEXT NOT NULL,
+      savings_interest INTEGER DEFAULT 0,
+      fd_interest INTEGER DEFAULT 0,
+      rd_interest INTEGER DEFAULT 0,
+      bond_interest INTEGER DEFAULT 0,
+      other_interest INTEGER DEFAULT 0,
+      total_tds INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS income_capital_gains (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      assessment_year TEXT NOT NULL,
+      short_term_gains INTEGER DEFAULT 0,
+      long_term_gains INTEGER DEFAULT 0,
+      short_term_losses INTEGER DEFAULT 0,
+      long_term_losses INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS income_property (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      assessment_year TEXT NOT NULL,
+      rental_income INTEGER DEFAULT 0,
+      property_tax INTEGER DEFAULT 0,
+      home_loan_interest INTEGER DEFAULT 0,
+      other_expenses INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS income_crypto (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      assessment_year TEXT NOT NULL,
+      crypto_gains INTEGER DEFAULT 0,
+      crypto_losses INTEGER DEFAULT 0,
+      tds_deducted INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS income_other (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      assessment_year TEXT NOT NULL,
+      other_income INTEGER DEFAULT 0,
+      exempt_income INTEGER DEFAULT 0,
+      tds_deducted INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS deductions_data (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      assessment_year TEXT NOT NULL,
+      section_80c INTEGER DEFAULT 0,
+      section_80d INTEGER DEFAULT 0,
+      section_80tta INTEGER DEFAULT 0,
+      section_80ccd INTEGER DEFAULT 0,
+      other_deductions INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS tax_calculations (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      assessment_year TEXT NOT NULL,
+      regime TEXT NOT NULL,
+      calculation_data TEXT NOT NULL, -- JSON string of full calculation
+      total_tax_liability INTEGER NOT NULL,
+      refund_or_due INTEGER NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    )
+  `);
+
+  // Create indexes for performance
+  db.run(`CREATE INDEX IF NOT EXISTS idx_income_salary_user_ay ON income_salary(user_id, assessment_year)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_income_interest_user_ay ON income_interest(user_id, assessment_year)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_income_capital_gains_user_ay ON income_capital_gains(user_id, assessment_year)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_income_property_user_ay ON income_property(user_id, assessment_year)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_income_crypto_user_ay ON income_crypto(user_id, assessment_year)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_income_other_user_ay ON income_other(user_id, assessment_year)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_deductions_user_ay ON deductions_data(user_id, assessment_year)`);
+  db.run(`CREATE INDEX IF NOT EXISTS idx_tax_calculations_user_ay ON tax_calculations(user_id, assessment_year)`);
+
   saveDB();
-  console.log('✅ Database initialized successfully');
+  console.log('✅ Database initialized successfully with tax calculation tables');
 };
 
 export const getDB = () => db;
