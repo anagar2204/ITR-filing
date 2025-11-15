@@ -129,23 +129,23 @@ export default function PersonalInfoPage() {
     }}>
       <ITRStepper />
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Left: Form */}
-          <div className="lg:col-span-2">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h1 className="text-3xl font-bold mb-2 bg-clip-text text-transparent" style={{
-                backgroundImage: 'linear-gradient(90deg, #16A34A, #06B6D4, #2563EB)'
-              }}>
-                Personal Information
-              </h1>
-              <p className="mb-8" style={{ color: theme === 'dark' ? '#94A3B8' : '#475569' }}>
-                Let's start with your basic details
-              </p>
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="w-full"
+        >
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold mb-2 bg-clip-text text-transparent" style={{
+              backgroundImage: 'linear-gradient(90deg, #16A34A, #06B6D4, #2563EB)'
+            }}>
+              Personal Information
+            </h1>
+            <p className="text-lg" style={{ color: theme === 'dark' ? '#94A3B8' : '#475569' }}>
+              Let's start with your basic details
+            </p>
+          </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Personal Info Section */}
@@ -156,7 +156,7 @@ export default function PersonalInfoPage() {
                   onToggle={() => toggleSection('personal')}
                   theme={theme}
                 >
-                  <div className="grid md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <InputField
                       label="First Name"
                       value={formData.firstName}
@@ -180,7 +180,7 @@ export default function PersonalInfoPage() {
                       theme={theme}
                     />
                   </div>
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                     <InputField
                       label="Date of Birth"
                       type="date"
@@ -206,7 +206,7 @@ export default function PersonalInfoPage() {
                   onToggle={() => toggleSection('identification')}
                   theme={theme}
                 >
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <InputField
                       label="PAN"
                       value={formData.pan}
@@ -226,7 +226,7 @@ export default function PersonalInfoPage() {
                       theme={theme}
                     />
                   </div>
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                     <InputField
                       label="Mobile Number"
                       type="tel"
@@ -257,7 +257,7 @@ export default function PersonalInfoPage() {
                   onToggle={() => toggleSection('address')}
                   theme={theme}
                 >
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <InputField
                       label="Door/Flat No"
                       value={formData.doorNo}
@@ -271,13 +271,15 @@ export default function PersonalInfoPage() {
                       theme={theme}
                     />
                   </div>
-                  <InputField
-                    label="Locality/Area"
-                    value={formData.locality}
-                    onChange={(v) => handleChange('locality', v)}
-                    theme={theme}
-                  />
-                  <div className="grid md:grid-cols-3 gap-4">
+                  <div className="mt-6">
+                    <InputField
+                      label="Locality/Area"
+                      value={formData.locality}
+                      onChange={(v) => handleChange('locality', v)}
+                      theme={theme}
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
                     <InputField
                       label="Pincode"
                       value={formData.pincode}
@@ -302,56 +304,21 @@ export default function PersonalInfoPage() {
                 </FormSection>
 
                 {/* Submit Button */}
-                <div className="flex justify-end pt-4">
+                <div className="flex justify-center pt-8 mt-8 border-t border-gray-200/50">
                   <button
                     type="submit"
-                    className="flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-white transition-all hover:shadow-2xl hover:scale-105"
+                    className="flex items-center gap-3 px-12 py-4 rounded-xl font-semibold text-white transition-all hover:shadow-2xl hover:scale-105 text-lg"
                     style={{
                       background: 'linear-gradient(90deg, #16A34A, #06B6D4, #2563EB)',
-                      boxShadow: '0 4px 12px rgba(6, 182, 212, 0.3)'
+                      boxShadow: '0 8px 25px rgba(6, 182, 212, 0.4)'
                     }}
                   >
                     Continue to Income Sources
-                    <ArrowRight className="h-5 w-5" />
+                    <ArrowRight className="h-6 w-6" />
                   </button>
                 </div>
               </form>
-            </motion.div>
-          </div>
-
-          {/* Right: Help Panel */}
-          <div className="lg:col-span-1">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="sticky top-24"
-            >
-              <div className="rounded-2xl backdrop-blur-md border p-6" style={{
-                background: theme === 'dark' ? 'rgba(30, 41, 59, 0.9)' : 'rgba(255, 255, 255, 0.9)',
-                borderColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.08)' : 'rgba(37, 99, 235, 0.06)',
-                boxShadow: '0 10px 25px rgba(6, 182, 212, 0.08)'
-              }}>
-                <div className="flex items-center gap-2 mb-4">
-                  <HelpCircle className="h-5 w-5" style={{ color: '#16A34A' }} />
-                  <h3 className="font-semibold" style={{ color: theme === 'dark' ? '#FFFFFF' : '#0F172A' }}>
-                    Need Help?
-                  </h3>
-                </div>
-                <p className="text-sm mb-4" style={{ color: theme === 'dark' ? '#94A3B8' : '#475569' }}>
-                  Our tax experts are here to assist you with your ITR filing.
-                </p>
-                <button className="w-full px-4 py-3 rounded-lg font-medium transition-all" style={{
-                  border: `2px solid ${theme === 'dark' ? 'rgba(16, 185, 129, 0.4)' : 'rgba(22, 163, 74, 0.3)'}`,
-                  backgroundColor: theme === 'dark' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(22, 163, 74, 0.05)',
-                  color: theme === 'dark' ? '#34D399' : '#16A34A'
-                }}>
-                  Talk to an Expert
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   )
@@ -402,7 +369,7 @@ function FormSection({ title, icon, isExpanded, onToggle, children, theme }: For
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="px-6 pb-6 space-y-4">
+            <div className="px-6 pb-6 space-y-6">
               {children}
             </div>
           </motion.div>

@@ -123,7 +123,7 @@ export default function Home() {
 
       {/* Hero Section - ClearTax Inspired */}
       <section className="container mx-auto px-4 py-16 md:py-24 relative">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-20 items-center">
           {/* Left Content */}
           <div className="relative z-10" style={{ animation: 'textSlideIn 0.6s ease-out' }}>
             {/* Stats Badge */}
@@ -236,7 +236,7 @@ export default function Home() {
           </div>
 
           {/* Right Side - Animated Refund Card + Person */}
-          <div className="relative hidden lg:block h-[550px]">
+          <div className="relative hidden lg:block h-[550px] xl:h-[600px]">
             {/* Background Gradient Bubble - Positioned Right */}
             <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-[500px] h-[500px] rounded-full opacity-20" style={{
               background: theme === 'dark'
@@ -244,19 +244,18 @@ export default function Home() {
                 : 'radial-gradient(circle, rgba(209, 250, 229, 0.7), rgba(167, 243, 208, 0.4), transparent)'
             }}></div>
 
-            {/* Person Image - Your Uploaded Hero Image */}
-            <div className="absolute right-0 bottom-0 h-[550px] w-[450px] flex items-end justify-end overflow-hidden">
+            {/* Person Image - Positioned behind and to the right of card */}
+            <div className="absolute right-0 bottom-0 h-[550px] xl:h-[600px] w-[480px] lg:w-[520px] xl:w-[580px] flex items-end justify-center overflow-hidden">
               <div className="relative h-full w-full">
                 {/* Professional woman with tax refund notification */}
                 <img 
                   src="/hero-woman.png"
                   alt="Professional woman confidently holding smartphone showing tax refund"
-                  className="absolute bottom-0 right-0 h-full w-full object-contain object-bottom transition-all duration-300 hover:scale-105"
+                  className="absolute bottom-0 right-8 lg:right-12 xl:right-16 h-full w-auto object-contain object-bottom transition-all duration-300 hover:scale-105"
                   style={{
                     filter: theme === 'dark' ? 'brightness(0.95) contrast(1.08)' : 'brightness(1.08) contrast(1.02)',
-                    maxWidth: '100%',
                     maxHeight: '100%',
-                    objectPosition: 'bottom right'
+                    objectPosition: 'bottom center'
                   }}
                   loading="eager"
                   onError={(e) => {
@@ -281,23 +280,23 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Animated Refund Cards - Perfectly aligned to left of person */}
-            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-[350px]" style={{ animation: 'floatCard 3s ease-in-out infinite' }}>
-              {/* Card 1: Deductions List */}
-              <div className={`absolute inset-0 transition-all duration-700 ${activeCard === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`} style={{
+            {/* Animated Refund Cards - Centered horizontally */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 top-1/2 w-[320px] lg:w-[340px] xl:w-[360px] z-10" style={{ animation: 'floatCard 3s ease-in-out infinite' }}>
+              {/* Card 1: Deductions List - Smaller and positioned below phone */}
+              <div className={`absolute left-0 top-8 lg:top-12 xl:top-16 transition-all duration-700 ${activeCard === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`} style={{
                 animation: activeCard === 0 ? 'cardFadeIn 0.6s ease-out' : 'none'
               }}>
-                <div className="backdrop-blur-md rounded-2xl p-6 border shadow-lg" style={{
+                <div className="backdrop-blur-md rounded-2xl p-4 border shadow-lg w-[240px] lg:w-[260px] xl:w-[280px]" style={{
                   backgroundColor: 'var(--card-bg)',
                   borderColor: 'var(--card-border)',
                   boxShadow: theme === 'dark' ? '0 20px 40px rgba(0,0,0,0.4)' : '0 10px 30px rgba(0,0,0,0.1)'
                 }}>
-                  <h3 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Auto applying deductions</h3>
+                  <h3 className="text-base font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Auto applying deductions</h3>
                   <div className="space-y-3">
                     {['80C Deductions', 'HRA Benefits', 'Medical Insurance', 'Home Loan Interest'].map((item, i) => (
-                      <div key={i} className="flex items-center space-x-2">
-                        <CheckCircle className="h-4 w-4" style={{ color: '#10B981' }} />
-                        <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{item}</span>
+                      <div key={i} className="flex items-center space-x-3">
+                        <CheckCircle className="h-5 w-5 flex-shrink-0" style={{ color: '#10B981' }} />
+                        <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>{item}</span>
                       </div>
                     ))}
                   </div>
@@ -313,19 +312,22 @@ export default function Home() {
                   borderColor: 'var(--card-border)',
                   boxShadow: theme === 'dark' ? '0 20px 40px rgba(0,0,0,0.4)' : '0 10px 30px rgba(0,0,0,0.1)'
                 }}>
-                  <h3 className="text-sm font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>Total Refund</h3>
-                  <div className="text-4xl font-bold mb-4 bg-clip-text text-transparent" style={{
-                    backgroundImage: 'linear-gradient(135deg, #10B981, #059669)'
-                  }}>₹1,47,060</div>
-                  <div className="space-y-2">
+                  <div className="text-center mb-6">
+                    <h3 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-secondary)' }}>Total Refund</h3>
+                    <div className="text-5xl lg:text-6xl font-bold bg-clip-text text-transparent" style={{
+                      backgroundImage: 'linear-gradient(135deg, #10B981, #059669)',
+                      lineHeight: '1.1'
+                    }}>₹1,47,060</div>
+                  </div>
+                  <div className="space-y-3 border-t pt-4" style={{ borderColor: 'var(--card-border)' }}>
                     {[
                       { label: 'Gross Income', value: '₹22,00,000' },
                       { label: 'Tax Savings', value: '₹4,50,000' },
                       { label: 'Refund', value: '₹1,34,303' }
                     ].map((item, i) => (
-                      <div key={i} className="flex justify-between text-sm">
-                        <span style={{ color: 'var(--text-secondary)' }}>{item.label}</span>
-                        <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{item.value}</span>
+                      <div key={i} className="flex justify-between items-center text-sm">
+                        <span className="font-medium" style={{ color: 'var(--text-secondary)' }}>{item.label}</span>
+                        <span className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>{item.value}</span>
                       </div>
                     ))}
                   </div>
@@ -341,12 +343,44 @@ export default function Home() {
                   borderColor: 'var(--card-border)',
                   boxShadow: theme === 'dark' ? '0 20px 40px rgba(0,0,0,0.4)' : '0 10px 30px rgba(0,0,0,0.1)'
                 }}>
-                  <div className="text-5xl mb-4">🤖</div>
-                  <div className="text-3xl font-bold bg-clip-text text-transparent mb-2" style={{
-                    backgroundImage: 'linear-gradient(135deg, #10B981, #059669)'
+                  <div className="text-6xl mb-6">🤖</div>
+                  <div className="text-4xl lg:text-5xl font-bold bg-clip-text text-transparent mb-3" style={{
+                    backgroundImage: 'linear-gradient(135deg, #10B981, #059669)',
+                    lineHeight: '1.1'
                   }}>₹1,47,060</div>
-                  <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Refund Calculated!</p>
+                  <p className="text-base font-semibold" style={{ color: 'var(--text-secondary)' }}>Refund Calculated!</p>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Refund Cards - Visible only on mobile */}
+        <div className="lg:hidden mt-12 px-4">
+          <div className="max-w-sm mx-auto">
+            <div className="backdrop-blur-md rounded-2xl p-6 border shadow-lg mb-4" style={{
+              backgroundColor: 'var(--card-bg)',
+              borderColor: 'var(--card-border)',
+              boxShadow: theme === 'dark' ? '0 20px 40px rgba(0,0,0,0.4)' : '0 10px 30px rgba(0,0,0,0.1)'
+            }}>
+              <div className="text-center mb-6">
+                <h3 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-secondary)' }}>Total Refund</h3>
+                <div className="text-4xl font-bold bg-clip-text text-transparent" style={{
+                  backgroundImage: 'linear-gradient(135deg, #10B981, #059669)',
+                  lineHeight: '1.1'
+                }}>₹1,47,060</div>
+              </div>
+              <div className="space-y-3 border-t pt-4" style={{ borderColor: 'var(--card-border)' }}>
+                {[
+                  { label: 'Gross Income', value: '₹22,00,000' },
+                  { label: 'Tax Savings', value: '₹4,50,000' },
+                  { label: 'Refund', value: '₹1,34,303' }
+                ].map((item, i) => (
+                  <div key={i} className="flex justify-between items-center text-sm">
+                    <span className="font-medium" style={{ color: 'var(--text-secondary)' }}>{item.label}</span>
+                    <span className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>{item.value}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTheme } from '@/components/ThemeProvider'
 import { motion } from 'framer-motion'
@@ -39,6 +39,7 @@ export default function InterestIncomePage() {
   const { theme } = useTheme()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [summaryData, setSummaryData] = useState<any>(null)
   
   const [formData, setFormData] = useState<InterestIncomeData>({
     savingsAccountInterest: 0,
@@ -54,6 +55,19 @@ export default function InterestIncomePage() {
       tdsDeducted: 0
     }]
   })
+
+  // Auto-update summary when form data changes
+  useEffect(() => {
+    const updateSummary = async () => {
+      const summary = await getInterestSummary()
+      setSummaryData(summary)
+    }
+    
+    // Only update if we have some data
+    if (calculateTotalInterest() > 0 || calculateTotalTDS() > 0) {
+      updateSummary()
+    }
+  }, [formData])
 
   const handleInputChange = (field: string, value: string | number) => {
     setFormData(prev => ({
@@ -144,7 +158,34 @@ export default function InterestIncomePage() {
   }
 
   const calculateTotalTDS = () => {
-    return formData.tdsOnInterest + formData.bankDetails.reduce((sum, bank) => sum + bank.tdsDeducted, 0)
+    // Only sum bank-wise TDS, not the separate tdsOnInterest field to avoid double counting
+    return formData.bankDetails.reduce((sum, bank) => sum + bank.tdsDeducted, 0)
+  }
+
+  const getInterestSummary = async () => {
+    try {
+      const payload = {
+        fiscalYear: '2024-25',
+        interest: {
+          savings: formData.savingsAccountInterest,
+          fd: formData.fixedDepositInterest,
+          rd: formData.recurringDepositInterest,
+          bonds: formData.bondInterest,
+          other: formData.otherInterest
+        },
+        bankEntries: formData.bankDetails.map(bank => ({
+          bankName: bank.bankName,
+          interest: bank.interestEarned,
+          tdsDeducted: bank.tdsDeducted
+        }))
+      }
+
+      const response = await axios.post('http://localhost:5000/api/v1/interest-summary', payload)
+      return response.data
+    } catch (error) {
+      console.error('Error getting interest summary:', error)
+      return null
+    }
   }
 
   const interestFields = [
@@ -446,10 +487,10 @@ export default function InterestIncomePage() {
             <div className="grid md:grid-cols-2 gap-4">
               <div className="text-center">
                 <p className="text-sm" style={{ color: theme === 'dark' ? '#94A3B8' : '#475569' }}>
-                  Total Interest Income
+                  Total Interest Income (FY 2024-25)
                 </p>
                 <p className="text-xl font-semibold" style={{ color: '#06B6D4' }}>
-                  ₹{calculateTotalInterest().toLocaleString('en-IN')}
+                  ₹{summaryData ? summaryData.totalInterest.toLocaleString('en-IN') : calculateTotalInterest().toLocaleString('en-IN')}
                 </p>
               </div>
               <div className="text-center">
@@ -457,10 +498,25 @@ export default function InterestIncomePage() {
                   Total TDS Deducted
                 </p>
                 <p className="text-xl font-semibold" style={{ color: '#EF4444' }}>
-                  ₹{calculateTotalTDS().toLocaleString('en-IN')}
+                  ₹{summaryData ? summaryData.totalTDS.toLocaleString('en-IN') : calculateTotalTDS().toLocaleString('en-IN')}
                 </p>
               </div>
             </div>
+            
+            {/* Validation Warning */}
+            {summaryData?.validation?.interestMismatch && (
+              <div className="mt-4 p-3 rounded-lg border-l-4 border-yellow-500" style={{
+                background: theme === 'dark' ? 'rgba(251, 191, 36, 0.1)' : 'rgba(251, 191, 36, 0.05)',
+                borderColor: '#F59E0B'
+              }}>
+                <p className="text-sm font-medium" style={{ color: '#F59E0B' }}>
+                  ⚠️ Validation Warning
+                </p>
+                <p className="text-xs mt-1" style={{ color: theme === 'dark' ? '#94A3B8' : '#475569' }}>
+                  Bank interest totals don't match category totals — please verify your entries.
+                </p>
+              </div>
+            )}
           </motion.div>
 
           {/* Action Buttons */}

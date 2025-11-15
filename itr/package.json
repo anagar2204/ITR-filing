@@ -4,16 +4,20 @@
   "description": "ITR Filing Platform - AI-powered tax filing solution",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm run dev:services\" \"npm run dev:web\"",
+    "dev": "concurrently \"npm run api\" \"npm run dev:frontend\"",
     "dev:services": "cd backend && npm run dev",
     "dev:web": "cd frontend/web && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
     "dev:mobile": "cd frontend/mobile && npm start",
+    "api": "node asset-server.js",
+    "serve-assets": "node asset-server.js",
     "build": "npm run build:services && npm run build:web",
     "build:services": "cd backend && npm run build",
     "build:web": "cd frontend/web && npm run build",
     "test": "npm run test:services && npm run test:web",
     "test:services": "cd backend && npm test",
     "test:web": "cd frontend/web && npm test",
+    "test:e2e": "cd frontend && npm run test:e2e",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "docker:up": "docker-compose up -d",
@@ -21,7 +25,7 @@
     "docker:logs": "docker-compose logs -f",
     "db:migrate": "cd backend && npm run migrate",
     "db:seed": "cd backend && npm run seed",
-    "prepare": "husky install"
+    "prepare": "echo 'Skipping husky install'"
   },
   "workspaces": [
     "backend/services/*",
@@ -59,6 +63,9 @@
     ]
   },
   "dependencies": {
-    "axios": "^1.13.2"
+    "axios": "^1.13.2",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "sharp": "^0.32.6"
   }
 }

@@ -134,6 +134,18 @@ export const initDatabase = async () => {
     )
   `);
 
+  // Capital gains table (PostgreSQL-compatible structure using SQLite)
+  db.run(`
+    CREATE TABLE IF NOT EXISTS capital_gains (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id TEXT NULL,
+      raw_payload TEXT NOT NULL,
+      result_json TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+    )
+  `);
+
   saveDB();
   console.log('✅ Database initialized successfully');
 };
@@ -161,4 +173,19 @@ export const get = (sql: string, params: any[] = []) => {
   return results.length > 0 ? results[0] : null;
 };
 
-export default { initDatabase, query, run, get, getDB };
+export const insertCapitalGains = (userId: string | null, rawPayload: any, resultJson: any) => {
+  const sql = `
+    INSERT INTO capital_gains (user_id, raw_payload, result_json)
+    VALUES (?, ?, ?)
+  `;
+  const params = [userId, JSON.stringify(rawPayload), JSON.stringify(resultJson)];
+  
+  db.run(sql, params);
+  saveDB();
+  
+  // Get the last inserted row
+  const lastId = db.exec('SELECT last_insert_rowid() as id')[0].values[0][0];
+  return { id: lastId, created_at: new Date().toISOString() };
+};
+
+export default { initDatabase, query, run, get, getDB, insertCapitalGains };

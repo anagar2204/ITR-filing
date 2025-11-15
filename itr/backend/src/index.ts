@@ -17,6 +17,7 @@ import taxCalculationRoutes from './routes/taxCalculationRoutes';
 import form16Routes from './routes/form16Routes';
 import testUserRoutes from './routes/testUserRoutes';
 import dataValidationRoutes from './routes/dataValidationRoutes';
+import interestSummaryRoutes from './routes/interestSummary';
 
 dotenv.config();
 
@@ -91,6 +92,11 @@ app.use('/api/tax-calculation', taxCalculationRoutes);
 app.use('/api/form16', form16Routes);
 app.use('/api/test-users', testUserRoutes);
 app.use('/api/data-validation', dataValidationRoutes);
+app.use('/api/v1/interest-summary', interestSummaryRoutes);
+
+// Capital gains routes
+const capitalGainsRoutes = require('./routes/capitalGains');
+app.use('/api/capital-gains', capitalGainsRoutes);
 
 // Error handling
 app.use(errorHandler);
